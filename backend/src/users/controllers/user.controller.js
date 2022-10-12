@@ -14,4 +14,18 @@ const registerUser = async (req, res) => {
   }
 }
 
-export default { registerUser }
+const login = async (req, res) => {
+  try {
+    const { email, password } = req.body
+
+    const user = { email, password }
+    const response = await userService.login(user)
+
+    res.send(response)
+  } catch (err) {
+    const status = err.status || 500
+    res.status(status).send(err)
+  }
+}
+
+export default { registerUser, login }
