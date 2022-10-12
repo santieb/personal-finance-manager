@@ -1,0 +1,44 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "backend | fullstack challenge",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node ./src/app.js",
+    "dev": "nodemon ./src/app.js",
+    "prisma:migrate": "npx prisma migrate dev",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/santieb/alkemy-fullstack.git"
+  },
+  "keywords": [
+    "nodejs",
+    "express"
+  ],
+  "author": "https://github.com/santieb",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/santieb/alkemy-fullstack/issues"
+  },
+  "homepage": "https://github.com/santieb/alkemy-fullstack#readme",
+  "dependencies": {
+    "@prisma/client": "^4.4.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "helmet": "^6.0.0",
+    "morgan": "^1.10.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.25.0",
+    "eslint-config-standard": "^17.0.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-n": "^15.3.0",
+    "eslint-plugin-promise": "^6.0.1",
+    "nodemon": "^2.0.20",
+    "prisma": "^4.4.0"
+  }
+}
