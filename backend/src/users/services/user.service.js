@@ -1,6 +1,7 @@
 import db from '../../config/database.js'
 import { ErrorObject } from '../../shared/error.js'
 import { encrypt, verify } from '../utils/bcrypt.js'
+import { generateToken } from '../utils/jwt.js'
 
 const registerUser = async (user) => {
   const { email, name, password } = user
@@ -19,4 +20,19 @@ const registerUser = async (user) => {
   })
 }
 
-export default { registerUser }
+const login = async (credentials) => {
+  const { email, password } = credentials
+
+  const user = await db.user.findUnique({ where: { email } })
+  if (!user) throw new ErrorObject('Your email and password do not match. Try again', 401)
+
+  const { id, password: passwordHashed } = user
+
+  const isMatch = await verify(password, passwordHashed)
+  if (!isMatch) throw new ErrorObject('Your email and password do not match. Try again', 401)
+
+  const token = await generateToken(id)
+  return { user, token }
+}
+
+export default { registerUser, login }
