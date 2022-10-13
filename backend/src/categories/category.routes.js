@@ -1,5 +1,5 @@
 import express from 'express'
-import categoryCtrl from './controllers/category controler.js'
+import categoryCtrl from './controllers/category.controller.js'
 const router = express.Router()
 
 router.post('/', categoryCtrl.createCategory)
