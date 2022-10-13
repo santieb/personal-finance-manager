@@ -1,12 +1,18 @@
 import categoryService from '../services/category.service.js'
 import { ErrorObject } from '../../shared/error.js'
+import sucessResponse from '../../shared/sucessResponse.js'
 
 const getCategories = async (req, res) => {
   try {
     const response = await categoryService.getCategories()
     if (response.length === 0) throw new ErrorObject('Not Found', 404)
 
-    res.send(response)
+    sucessResponse({
+      res,
+      status: 200,
+      message: 'Categories successfully obtained',
+      data: response
+    })
   } catch (err) {
     const status = err.status || 500
     res.status(status).send(err)
@@ -20,7 +26,12 @@ const createCategory = async (req, res) => {
     const newCategory = { categoryName, image }
     const response = await categoryService.createCategory(newCategory)
 
-    res.send(response)
+    sucessResponse({
+      res,
+      status: 200,
+      message: 'Category created successfully',
+      data: response
+    })
   } catch (err) {
     const status = err.status || 500
     res.status(status).send(err)
@@ -32,7 +43,12 @@ const deleteCategory = async (req, res) => {
     const { idCategory } = req.params
     const response = await categoryService.deleteCategory(idCategory)
 
-    res.send(response)
+    sucessResponse({
+      res,
+      status: 200,
+      message: 'Category deleted successfully',
+      data: response
+    })
   } catch (err) {
     const status = err.status || 500
     res.status(status).send(err)

@@ -1,4 +1,6 @@
 import operationService from '../services/operation.service.js'
+import { ErrorObject } from '../../shared/error.js'
+import sucessResponse from '../../shared/sucessResponse.js'
 
 const getOperations = async (req, res) => {
   try {
@@ -6,8 +8,14 @@ const getOperations = async (req, res) => {
     const { categoryId, type, page } = req.query
 
     const response = await operationService.getOperations(userId, categoryId, type, page)
+    if (response.length === 0) throw new ErrorObject('Not Found', 404)
 
-    res.send(response)
+    sucessResponse({
+      res,
+      status: 200,
+      message: 'Operations successfully obtained',
+      data: response
+    })
   } catch (err) {
     const status = err.status || 500
     res.status(status).send(err.message)
@@ -28,8 +36,12 @@ const createOperation = async (req, res) => {
     }
 
     const response = await operationService.createOperation(newOperation)
-
-    res.send(response)
+    sucessResponse({
+      res,
+      status: 200,
+      message: 'Operation created successfully',
+      data: response
+    })
   } catch (err) {
     const status = err.status || 500
     res.status(status).send(err)
@@ -50,7 +62,12 @@ const updateOperation = async (req, res) => {
 
     const response = await operationService.updateOperation(idOperation, operationUpdated, id)
 
-    res.send(response)
+    sucessResponse({
+      res,
+      status: 200,
+      message: 'Operation updated successfully',
+      data: response
+    })
   } catch (err) {
     const status = err.status || 500
     res.status(status).send(err)
@@ -64,7 +81,12 @@ const deleteOperation = async (req, res) => {
 
     const response = await operationService.deleteOperation(idOperation, id)
 
-    res.send(response)
+    sucessResponse({
+      res,
+      status: 200,
+      message: 'Operation deleted successfully',
+      data: response
+    })
   } catch (err) {
     const status = err.status || 500
     res.status(status).send(err)
