@@ -1,6 +1,8 @@
 import db from '../../config/database.js'
 import { ErrorObject } from '../../shared/error.js'
 
+const getCategories = async () => await db.category.findMany()
+
 const createCategory = async (newCategory) => {
   const { categoryName, image } = newCategory
 
@@ -15,4 +17,4 @@ const createCategory = async (newCategory) => {
   })
 }
 
-export default { createCategory }
+export default { createCategory, getCategories }
