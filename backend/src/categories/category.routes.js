@@ -8,5 +8,6 @@ router
   .use(isAuth)
   .get('/', categoryCtrl.getCategories)
   .post('/', categoryCtrl.createCategory)
+  .delete('/:idCategory', categoryCtrl.deleteCategory)
 
 export default router

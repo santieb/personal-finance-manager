@@ -17,4 +17,11 @@ const createCategory = async (newCategory) => {
   })
 }
 
-export default { createCategory, getCategories }
+const deleteCategory = async (id) => {
+  const categoryExists = await db.category.findUnique({ where: { id } })
+  if (!categoryExists) throw new ErrorObject('category not exists', 404)
+
+  return await db.category.delete({ where: { id } })
+}
+
+export default { getCategories, createCategory, deleteCategory }

@@ -27,4 +27,16 @@ const createCategory = async (req, res) => {
   }
 }
 
-export default { createCategory, getCategories }
+const deleteCategory = async (req, res) => {
+  try {
+    const { idCategory } = req.params
+    const response = await categoryService.deleteCategory(idCategory)
+
+    res.send(response)
+  } catch (err) {
+    const status = err.status || 500
+    res.status(status).send(err)
+  }
+}
+
+export default { getCategories, createCategory, deleteCategory }
