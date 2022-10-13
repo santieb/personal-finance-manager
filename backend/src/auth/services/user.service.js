@@ -26,12 +26,12 @@ const login = async (credentials) => {
   const user = await db.user.findUnique({ where: { email } })
   if (!user) throw new ErrorObject('Your email and password do not match. Try again', 401)
 
-  const { id, password: passwordHashed } = user
+  const { id, isAdmin, password: passwordHashed } = user
 
   const isMatch = await verify(password, passwordHashed)
   if (!isMatch) throw new ErrorObject('Your email and password do not match. Try again', 401)
 
-  const token = await generateToken(id)
+  const token = await generateToken(id, isAdmin)
   return { user, token }
 }
 

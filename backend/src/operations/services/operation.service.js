@@ -61,8 +61,6 @@ const deleteOperation = async (id, userId) => {
   const operation = await db.operation.findUnique({ where: { id } })
   if (!operation) throw new ErrorObject('this operation not exists', 404)
 
-  console.log(operation)
-  console.log(userId)
   if (operation.userId !== userId) throw new ErrorObject('you do not have permission to perform this action', 401)
 
   return await db.operation.delete({ where: { id } })
