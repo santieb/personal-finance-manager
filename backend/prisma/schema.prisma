@@ -15,6 +15,7 @@ model User {
   email      String   @unique @db.VarChar(255)
   name       String
   password   String
+  isAdmin    Boolean  @default(false)
   operations Operation[]
   created_at DateTime @default(now())
   updatedAt  DateTime @updatedAt
@@ -27,13 +28,13 @@ model Operation {
   type       String
   user       User     @relation(fields: [userId], references: [id])
   userId     String
-  category   Category @relation(fields: [categoryId], references: [id])
-  categoryId String
+  category   Category? @relation(fields: [categoryId], references: [id])
+  categoryId String?
 }
 
 model Category {
-  id         String   @id @default(uuid())
-  category   String
-  image      String
-  operations Operation[]
+  id            String   @id @default(uuid())
+  categoryName  String   @unique
+  image         String?
+  operations    Operation[]
 }
