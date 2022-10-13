@@ -1,6 +1,22 @@
 import db from '../../config/database.js'
 import { ErrorObject } from '../../shared/error.js'
 
+const getOperations = async (userId, categoryId, type, page) => {
+  const where = { userId, categoryId, type }
+
+  const take = 10
+  const skip = (page - 1) * 10
+
+  return await db.operation.findMany({
+    skip,
+    take,
+    where,
+    include: {
+      category: true
+    }
+  })
+}
+
 const createOperation = async (newOperation) => {
   const { concept, amount, type, userId, categoryId } = newOperation
 
@@ -18,4 +34,4 @@ const createOperation = async (newOperation) => {
   })
 }
 
-export default { createOperation }
+export default { getOperations, createOperation }

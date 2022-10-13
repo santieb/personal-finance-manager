@@ -5,6 +5,7 @@ const router = express.Router()
 
 router
   .use(isAuth)
+  .get('/', operationCtrl.getOperations)
   .post('/', operationCtrl.createOperation)
 
 export default router
