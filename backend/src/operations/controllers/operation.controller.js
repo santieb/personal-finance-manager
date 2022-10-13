@@ -32,8 +32,43 @@ const createOperation = async (req, res) => {
     res.send(response)
   } catch (err) {
     const status = err.status || 500
-    res.status(status).send(err.message)
+    res.status(status).send(err)
   }
 }
 
-export default { getOperations, createOperation }
+const updateOperation = async (req, res) => {
+  try {
+    const { concept, amount, categoryId } = req.body
+    const { idOperation } = req.params
+    const { id } = req.user
+
+    const operationUpdated = {
+      concept,
+      amount,
+      categoryId
+    }
+
+    const response = await operationService.updateOperation(idOperation, operationUpdated, id)
+
+    res.send(response)
+  } catch (err) {
+    const status = err.status || 500
+    res.status(status).send(err)
+  }
+}
+
+const deleteOperation = async (req, res) => {
+  try {
+    const { idOperation } = req.params
+    const { id } = req.user
+
+    const response = await operationService.deleteOperation(idOperation, id)
+
+    res.send(response)
+  } catch (err) {
+    const status = err.status || 500
+    res.status(status).send(err)
+  }
+}
+
+export default { getOperations, createOperation, updateOperation, deleteOperation }
