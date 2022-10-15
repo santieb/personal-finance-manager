@@ -1,29 +1,55 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
+import useAuth from '../hooks/useAuth'
+import { Navigate, useNavigate } from 'react-router-dom'
+import operationService from '../services/operationService'
+import Operation from '../components/Operation'
+import Balance from '../components/Balance'
+import Modalt from '../components/Modal'
+import categoryService from '../services/categoryService'
 
 export default function Home () {
+  const [operations, setOperations] = useState('')
+  const [categories, setCategories] = useState('')
+
+  const { auth, logOut } = useAuth()
+
+  const navigate = useNavigate()
+
+  if (!auth) {
+    return <Navigate to="/login" replace />
+  }
+
+  useEffect(() => {
+    const getOperations = async () => {
+      try {
+        const response = await operationService.getOperations(auth)
+        if (response.status === 403) {
+          logOut()
+          navigate('/login')
+        }
+
+        setOperations(response.data)
+      } catch (err) {
+        console.log(err)
+      }
+    }
+
+    getOperations()
+  }, [])
+
+  useEffect(() => {
+    const getCategories = async () => {
+      const response = await categoryService.getCategories(auth)
+      setCategories(response.data)
+    }
+    getCategories()
+  }, [])
+
   return (
     <div className="md:flex items-center justify-center bg-indigo-100 h-screen ">
-      <div className="p-4 bg-white rounded-lg border shadow-md sm:p-8 flex justify-between lg:gap-10 lg:m-40">
-        <div className="">
-            <h1 className="text-xl font-bold leading-none">
-                Balance
-            </h1>
-            <p>$333323</p>
-        </div>
-        <div>
-            <h1 className="text-xl font-bold leading-none">
-                Income
-            </h1>
-            <p>$333323</p>
-        </div>
-        <div>
-            <h1 className="text-xl font-bold leading-none">
-                Expenses
-            </h1>
-            <p>$333323</p>
-        </div>
-      </div>
-
+      <Modalt operations={operations} setOperations={setOperations} categories={categories}/>
+      <button onClick={() => logOut()}>Logout</button>
+      <Balance operations={operations}/>
       <div className="max-w mx-auto">
         <div className="p-4 bg-white rounded-lg border shadow-md sm:p-8 ">
           <div className="flex justify-between items-center mb-4">
@@ -34,230 +60,7 @@ export default function Home () {
           </div>
           <div>
             <ul className="divide-y divide-gray-200 lg:grid lg:grid-cols-2">
-              <li className="py-3 sm:py-4 lg:px-4">
-                <div className="flex items-center space-x-2">
-                  <div className="flex-shrink-0">
-                    <img
-                      className="w-8 h-8 rounded-full"
-                      src="https://flowbite.com/docs/images/people/profile-picture-4.jpg"
-                      alt="Lana image"
-                    />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="text-sm font-medium text-gray-900 truncate">
-                      Lana Byrd
-                    </p>
-                    <p className="text-sm text-gray-500 truncate dark:text-gray-400">
-                      24 jan
-                    </p>
-                  </div>
-                  <div className="inline-flex items-center text-base font-semibold text-red-500">
-                    - $367
-                  </div>
-                </div>
-              </li>
-              <li className="py-3 sm:py-4 lg:px-4">
-                <div className="flex items-center space-x-4">
-                  <div className="flex-shrink-0">
-                    <img
-                      className="w-8 h-8 rounded-full"
-                      src="https://flowbite.com/docs/images/people/profile-picture-4.jpg"
-                      alt="Lana image"
-                    />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="text-sm font-medium text-gray-900 truncate">
-                      Lana Byrd
-                    </p>
-                    <p className="text-sm text-gray-500 truncate dark:text-gray-400">
-                      24 jan
-                    </p>
-                  </div>
-                  <div className="inline-flex items-center text-base font-semibold text-red-500">
-                    - $367
-                  </div>
-                </div>
-              </li>
-              <li className="py-3 sm:py-4 lg:px-4">
-                <div className="flex items-center space-x-4">
-                  <div className="flex-shrink-0">
-                    <img
-                      className="w-8 h-8 rounded-full"
-                      src="https://flowbite.com/docs/images/people/profile-picture-4.jpg"
-                      alt="Lana image"
-                    />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="text-sm font-medium text-gray-900 truncate">
-                      Lana Byrd
-                    </p>
-                    <p className="text-sm text-gray-500 truncate dark:text-gray-400">
-                      24 jan
-                    </p>
-                  </div>
-                  <div className="inline-flex items-center text-base font-semibold text-red-500">
-                    - $367
-                  </div>
-                </div>
-              </li>
-              <li className="py-3 sm:py-4 lg:px-4">
-                <div className="flex items-center space-x-4">
-                  <div className="flex-shrink-0">
-                    <img
-                      className="w-8 h-8 rounded-full"
-                      src="https://flowbite.com/docs/images/people/profile-picture-4.jpg"
-                      alt="Lana image"
-                    />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="text-sm font-medium text-gray-900 truncate">
-                      Lana Byrd
-                    </p>
-                    <p className="text-sm text-gray-500 truncate dark:text-gray-400">
-                      24 jan
-                    </p>
-                  </div>
-                  <div className="inline-flex items-center text-base font-semibold text-red-500">
-                    - $367
-                  </div>
-                </div>
-              </li>
-              <li className="py-3 sm:py-4 lg:px-4">
-                <div className="flex items-center space-x-4">
-                  <div className="flex-shrink-0">
-                    <img
-                      className="w-8 h-8 rounded-full"
-                      src="https://flowbite.com/docs/images/people/profile-picture-4.jpg"
-                      alt="Lana image"
-                    />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="text-sm font-medium text-gray-900 truncate">
-                      Lana Byrd
-                    </p>
-                    <p className="text-sm text-gray-500 truncate dark:text-gray-400">
-                      24 jan
-                    </p>
-                  </div>
-                  <div className="inline-flex items-center text-base font-semibold text-red-500">
-                    - $367
-                  </div>
-                </div>
-              </li>
-                            <li className="py-3 sm:py-4 lg:px-4">
-                <div className="flex items-center space-x-4">
-                  <div className="flex-shrink-0">
-                    <img
-                      className="w-8 h-8 rounded-full"
-                      src="https://flowbite.com/docs/images/people/profile-picture-4.jpg"
-                      alt="Lana image"
-                    />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="text-sm font-medium text-gray-900 truncate">
-                      Lana Byrd
-                    </p>
-                    <p className="text-sm text-gray-500 truncate dark:text-gray-400">
-                      24 jan
-                    </p>
-                  </div>
-                  <div className="inline-flex items-center text-base font-semibold text-red-500">
-                    - $367
-                  </div>
-                </div>
-              </li>
-
-              <li className="py-3 sm:py-4 lg:px-4">
-                <div className="flex items-center space-x-4">
-                  <div className="flex-shrink-0">
-                    <img
-                      className="w-8 h-8 rounded-full"
-                      src="https://flowbite.com/docs/images/people/profile-picture-4.jpg"
-                      alt="Lana image"
-                    />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="text-sm font-medium text-gray-900 truncate">
-                      Lana Byrd
-                    </p>
-                    <p className="text-sm text-gray-500 truncate dark:text-gray-400">
-                      24 jan
-                    </p>
-                  </div>
-                  <div className="inline-flex items-center text-base font-semibold text-red-500">
-                    - $367
-                  </div>
-                </div>
-              </li>
-
-              <li className="py-3 sm:py-4 lg:px-4">
-                <div className="flex items-center space-x-4">
-                  <div className="flex-shrink-0">
-                    <img
-                      className="w-8 h-8 rounded-full"
-                      src="https://flowbite.com/docs/images/people/profile-picture-4.jpg"
-                      alt="Lana image"
-                    />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="text-sm font-medium text-gray-900 truncate">
-                      Lana Byrd
-                    </p>
-                    <p className="text-sm text-gray-500 truncate dark:text-gray-400">
-                      24 jan
-                    </p>
-                  </div>
-                  <div className="inline-flex items-center text-base font-semibold text-red-500">
-                    - $367
-                  </div>
-                </div>
-              </li>
-
-              <li className="py-3 sm:py-4 lg:px-4">
-                <div className="flex items-center space-x-4">
-                  <div className="flex-shrink-0">
-                    <img
-                      className="w-8 h-8 rounded-full"
-                      src="https://flowbite.com/docs/images/people/profile-picture-4.jpg"
-                      alt="Lana image"
-                    />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="text-sm font-medium text-gray-900 truncate">
-                      Lana Byrd
-                    </p>
-                    <p className="text-sm text-gray-500 truncate dark:text-gray-400">
-                      24 jan
-                    </p>
-                  </div>
-                  <div className="inline-flex items-center text-base font-semibold text-red-500">
-                    - $367
-                  </div>
-                </div>
-              </li>
-
-              <li className="py-3 sm:py-4 lg:px-4">
-                <div className="flex items-center space-x-4">
-                  <div className="flex-shrink-0">
-                    <img
-                      className="w-8 h-8 rounded-full"
-                      src="https://flowbite.com/docs/images/people/profile-picture-4.jpg"
-                      alt="Lana image"
-                    />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="text-sm font-medium text-gray-900 truncate">
-                      Lana Byrd
-                    </p>
-                    <p className="text-sm text-gray-500 truncate dark:text-gray-400">
-                      24 jan
-                    </p>
-                  </div>
-                  <div className="inline-flex items-center text-base font-semibold text-red-500">
-                    - $367
-                  </div>
-                </div>
-              </li>
+              {operations && operations.map(operation => <Operation key={operation.id} operation={operation}/>)}
             </ul>
           </div>
         </div>
