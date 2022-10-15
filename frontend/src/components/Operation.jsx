@@ -1,10 +1,11 @@
 import React from 'react'
+import images from '../assets'
 
-const Operation = ({ operation }) => {
-  const { amount, category, concept, type } = operation
+const Operation = ({ operation, deleteOperation }) => {
+  const { id, amount, concept, type } = operation
 
   return (
-    <li className="py-3 sm:py-4 lg:px-4">
+    <li className="py-3 sm:py-8 lg:w-80 lg:p-6">
       <div className="flex items-center space-x-2">
         <div className="flex-shrink-0">
           <img
@@ -29,6 +30,8 @@ const Operation = ({ operation }) => {
             ${amount}
           </div>
         }
+        <img className="w-6 lg:w-4 mr-4 ransform hover:scale-125" src={images.update}></img>
+        <img onClick={() => deleteOperation(id)} className="w-6 lg:w-4 transform hover:scale-125" src={images.remove}></img>
       </div>
     </li>
   )

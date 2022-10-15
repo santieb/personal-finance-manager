@@ -11,9 +11,7 @@ const getCategories = async (token) => {
 
   try {
     const res = await fetch('http://localhost:3001/api/categories', requestOptions)
-    console.log(res)
     const data = await res.json()
-    console.log(data)
     return data
   } catch (err) {
     return err

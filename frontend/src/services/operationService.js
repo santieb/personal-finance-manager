@@ -1,4 +1,4 @@
-const getOperations = async (token) => {
+const getOperations = async (path, token) => {
   const requestOptions = {
     method: 'GET',
     mode: 'cors',
@@ -10,8 +10,9 @@ const getOperations = async (token) => {
   }
 
   try {
-    const res = await fetch('http://localhost:3001/api/operations', requestOptions)
+    const res = await fetch(`http://localhost:3001/api/${path}`, requestOptions)
     const data = await res.json()
+    console.log(data)
     return data
   } catch (err) {
     return err
@@ -34,6 +35,27 @@ const createOperation = async (operation, token) => {
   try {
     const res = await fetch('http://localhost:3001/api/operations', requestOptions)
     const data = await res.json()
+
+    return data
+  } catch (err) {
+    return err
+  }
+}
+
+const deleteOperation = async (id, token) => {
+  const requestOptions = {
+    method: 'DELETE',
+    mode: 'cors',
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Content-Type': 'application/json',
+      Authorization: 'Bearer ' + token
+    }
+  }
+
+  try {
+    const res = await fetch(`http://localhost:3001/api/operations/${id}`, requestOptions)
+    const data = await res.json()
     console.log(res)
     return data
   } catch (err) {
@@ -41,4 +63,4 @@ const createOperation = async (operation, token) => {
   }
 }
 
-export default { getOperations, createOperation }
+export default { getOperations, createOperation, deleteOperation }

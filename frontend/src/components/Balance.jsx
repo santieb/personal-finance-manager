@@ -1,43 +1,69 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
+import { CircularProgressbarWithChildren  } from 'react-circular-progressbar'
+import 'react-circular-progressbar/dist/styles.css'
 
-const Balance = ({ operations }) => {
-  const calculateExpenses = () => {
-    const totalExpenses = operations.reduce((acc, operation) => {
-      if (operation.type === 'expenses') return acc + operation.amount
-    }, 0)
+const Balance = ({ allOperations }) => {
+  const [progess, setProgress] = useState(0)
+  const [expenses, setExpenses] = useState(0)
+  const [incomes, setIncomes] = useState(0)
 
-    return totalExpenses || 0
-  }
+  useEffect(() => {
+    const calculateExpenses = () => {
+      let totalExpenses = 0
+      let totalIncome = 0
 
-  const calculateIncome = () => {
-    const totalIncome = operations.reduce((acc, operation) => {
-      if (operation.type === 'income') return acc + operation.amount
-    }, 0)
+      if (!allOperations || allOperations.length === 0) {
+        setExpenses(0)
+        setIncomes(0)
+        setProgress(0)
+        return
+      }
 
-    return totalIncome || 0
-  }
+      allOperations.forEach(operations => {
+        if (operations.type === 'expenses') totalExpenses += operations.amount
 
-  const calculateBalance = () => calculateIncome() - calculateExpenses()
+        if (operations.type === 'incomes') totalIncome += operations.amount
+      })
+
+      setExpenses(totalExpenses)
+      setIncomes(totalIncome)
+
+      let progressbar = 100 - totalExpenses / totalIncome * 100
+
+      if (progressbar === -Infinity || progressbar === Infinity) progressbar = 0
+      setProgress(progressbar)
+    }
+    calculateExpenses()
+  }, [allOperations])
 
   return (
-    <div className="p-4 bg-white rounded-lg border shadow-md sm:p-8 flex justify-between lg:gap-10 lg:m-40">
-      <div className="">
-        <h1 className="text-xl font-bold leading-none">
+    <div className="p-4 bg-white rounded-lg border shadow-md sm:p-8 flex flex-col items-center mx-auto justify-center gap-10 lg:mr-2 lg:p-10">
+      <div className="flex gap-10">
+      <div>
+        <h1 className="text-xl font-bold leading-none py-2">
           Balance
         </h1>
-        <p>${operations ? calculateBalance() : 0}</p>
+        <p className="text-xl font-bold" >${incomes - expenses}</p>
       </div>
       <div>
-        <h1 className="text-xl font-bold leading-none">
-          Income
+        <h1 className="text-xl font-bold leading-none py-2">
+          Incomes
         </h1>
-        <p>${operations ? calculateIncome() : 0}</p>
+        <p className="text-xl font-bold text-green-600">${incomes}</p>
       </div>
       <div>
-        <h1 className="text-xl font-bold leading-none">
+        <h1 className="text-xl font-bold leading-none py-2">
           Expenses
         </h1>
-        <p>${operations ? calculateExpenses() : 0}</p>
+        <p className="text-xl font-bold text-red-700">${expenses}</p>
+      </div>
+      </div>
+      <div className={ progess < 0 ? 'w-80 border-red-500' : 'w-80 border-blue-500'}>
+        <CircularProgressbarWithChildren value={progess} >
+        <div>
+            <strong>{progess}% </strong> Remaining
+          </div>
+        </CircularProgressbarWithChildren >
       </div>
     </div>
   )

@@ -3,7 +3,7 @@ import Modal from 'react-modal'
 import operationService from '../services/operationService'
 import useAuth from '../hooks/useAuth'
 
-const Modalt = ({ operations, setOperations, categories}) => {
+const Modalt = ({ operations, setAllOperations, setOperations, allOperations, categories }) => {
   let subtitle
   const [modalIsOpen, setIsOpen] = useState(false)
 
@@ -39,80 +39,88 @@ const Modalt = ({ operations, setOperations, categories}) => {
     if (response.status === 200) {
       setIsOpen(false)
       setOperations([...operations, response.data])
+      setAllOperations([...allOperations, response.data])
+
+      if (!operations && !setAllOperations) {
+        setOperations([response.data])
+        setAllOperations([response.data])
+      }
     }
   }
 
   return (
     <div>
-      <button onClick={openModal}>+</button>
-      <Modal
+      <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full" onClick={openModal}>+</button>
+      <Modal className="lg:w-1/2 xl:max-w-screen-sm bg-white p-4"
         isOpen={modalIsOpen}
         onAfterOpen={afterOpenModal}
         onRequestClose={closeModal}
         contentLabel="Example Modal"
       >
-        <h2 ref={(_subtitle) => (subtitle = _subtitle)}>Create Operation</h2>
-        <button onClick={closeModal}>close</button>
+        <div className="flex space-beetween justify-between items-center mb-4">
+          <h2 ref={(_subtitle) => (subtitle = _subtitle)}>Create Operation</h2>
+          <button onClick={closeModal}>X</button>
+        </div>
         <form onSubmit={handleSubmit}>
-              <div>
-                <div className="text-sm font-bold text-gray-700 tracking-wide">Concept</div>
-                <input
-                  className="w-full text-lg py-2 border-b border-gray-300 focus:outline-none focus:border-indigo-500"
-                  type="text"
-                  placeholder=""
-                  id="concept"
-                  value={concept}
-                  onChange={({ target }) => setConcept(target.value)}
-                 />
+          <div>
+            <div className="text-sm font-bold text-gray-700 tracking-wide">Concept</div>
+            <input
+              className="w-full text-lg py-2 border-b border-gray-300 focus:outline-none focus:border-indigo-500"
+              type="text"
+              placeholder=""
+              id="concept"
+              value={concept}
+              onChange={({ target }) => setConcept(target.value)}
+            />
+          </div>
+          <div className="mt-8">
+            <div className="flex justify-between items-center">
+              <div
+                className="text-sm font-bold text-gray-700 tracking-wide">
+                Amount
               </div>
-              <div className="mt-8">
-                <div className="flex justify-between items-center">
-                  <div
-                    className="text-sm font-bold text-gray-700 tracking-wide">
-                    Amount
-                  </div>
-                </div>
-                <input
-                  className="w-full text-lg py-2 border-b border-gray-300 focus:outline-none focus:border-indigo-500"
-                  type="number"
-                  id="amount"
-                  placeholder="0"
-                  value={amount}
-                  onChange={({ target }) => setAmount(+target.value)}
-                />
-              </div>
+            </div>
+            <input
+              className="w-full text-lg py-2 border-b border-gray-300 focus:outline-none focus:border-indigo-500"
+              type="number"
+              id="amount"
+              placeholder="0"
+              value={amount}
+              onChange={({ target }) => setAmount(+target.value)}
+            />
+          </div>
 
-              <div className="mt-8">
-                <div className="flex justify-between items-center">
-                  <div
-                    className="text-sm font-bold text-gray-700 tracking-wide">
-                    Type
-                  </div>
-                </div>
-                <select onChange={({ target }) => setType(target.value)} value={type} className="w-full text-lg py-2 border-b border-gray-300 focus:outline-none focus:border-indigo-500">
-                  <option value="expenses">Expenses</option>
-                  <option value="incomes">Income</option>
-                </select>
+          <div className="mt-8">
+            <div className="flex justify-between items-center">
+              <div
+                className="text-sm font-bold text-gray-700 tracking-wide">
+                Type
               </div>
+            </div>
+            <select onChange={({ target }) => setType(target.value)} value={type} className="w-full text-lg py-2 border-b border-gray-300 focus:outline-none focus:border-indigo-500">
+              <option value="expenses">Expenses</option>
+              <option value="incomes">Income</option>
+            </select>
+          </div>
 
-              <div className="mt-8">
-                <div className="flex justify-between items-center">
-                  <div
-                    className="text-sm font-bold text-gray-700 tracking-wide">
-                    Category
-                  </div>
-                </div>
-                <select onChange={({ target }) => setCategory(target.value)} value={category} className="w-full text-lg py-2 border-b border-gray-300 focus:outline-none focus:border-indigo-500">
-                  {categories && categories.map(category => <option key={category.id} value={category.id}>{category.categoryName}</option>)}
-                </select>
+          <div className="mt-8">
+            <div className="flex justify-between items-center">
+              <div
+                className="text-sm font-bold text-gray-700 tracking-wide">
+                Category
               </div>
+            </div>
+            <select onChange={({ target }) => setCategory(target.value)} value={category} className="w-full text-lg py-2 border-b border-gray-300 focus:outline-none focus:border-indigo-500">
+              {categories && categories.map(category => <option key={category.id} value={category.id}>{category.categoryName}</option>)}
+            </select>
+          </div>
 
-              <div className="mt-10">
-                <button className="bg-indigo-500 text-gray-100 p-4 w-full rounded-full tracking-wide font-semibold font-display focus:outline-none focus:shadow-outline hover:bg-indigo-600 shadow-lg">
-                  Create operation
-                </button>
-              </div>
-            </form>
+          <div className="mt-10">
+            <button className="bg-indigo-500 text-gray-100 p-4 w-full rounded-full tracking-wide font-semibold font-display focus:outline-none focus:shadow-outline hover:bg-indigo-600 shadow-lg">
+              Create operation
+            </button>
+          </div>
+        </form>
       </Modal>
     </div>
   )

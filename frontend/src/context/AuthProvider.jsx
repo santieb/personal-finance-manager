@@ -18,6 +18,7 @@ const AuthProvider = ({ children }) => {
 
   const logOut = () => {
     authService.logout()
+    setAuth('')
     navigate('/login')
   }
 

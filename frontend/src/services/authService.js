@@ -12,7 +12,7 @@ const register = async ({ email, name, password }) => {
   }
 
   try {
-    const res = await fetch('http://localhost:3001/api/users/register', requestOptions)
+    const res = await fetch('http://localhost:3001/api/users/register?page=1', requestOptions)
     const userData = await res.json()
 
     return userData
@@ -46,6 +46,7 @@ const login = async ({ email, password }) => {
     return err
   }
 }
+
 const logout = () => {
   localStorage.removeItem('user')
 }
