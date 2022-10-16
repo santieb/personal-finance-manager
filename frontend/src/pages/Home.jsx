@@ -35,7 +35,7 @@ export default function Home () {
           logOut()
         }
 
-        if (!response.data) return
+        if (!response.data) return setOperations([])
         setAllOperations(response.data)
       } catch (err) {
         console.log(err)
@@ -54,7 +54,7 @@ export default function Home () {
           logOut()
         }
 
-        if (!response) return
+        if (!response.data) return setOperations([])
         setOperations(response.data)
       } catch (err) {
         console.log(err)
