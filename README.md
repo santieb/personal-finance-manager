@@ -39,6 +39,7 @@ VITE_BACKEND_URL=http://localhost:3001
 ***Backend***
 `npm run start`
 `npm run prisma:migrate`
+`npm run prisma:seed`
 
 ***Frontend***
 `npm run dev`
