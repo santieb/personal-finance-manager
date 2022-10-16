@@ -8,6 +8,7 @@
     "start": "node ./src/app.js",
     "dev": "nodemon ./src/app.js",
     "prisma:migrate": "npx prisma migrate dev",
+    "prisma:seed": "node prisma/seed.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
