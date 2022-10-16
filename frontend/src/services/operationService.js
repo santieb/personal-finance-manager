@@ -1,3 +1,5 @@
+const url = import.meta.env.VITE_BACKEND_URL
+
 const getOperations = async (path, token) => {
   const requestOptions = {
     method: 'GET',
@@ -10,7 +12,7 @@ const getOperations = async (path, token) => {
   }
 
   try {
-    const res = await fetch(`http://localhost:3001/api/${path}`, requestOptions)
+    const res = await fetch(`${url}/api/${path}`, requestOptions)
     const data = await res.json()
     console.log(data)
     return data
@@ -32,7 +34,7 @@ const createOperation = async (operation, token) => {
   }
 
   try {
-    const res = await fetch('http://localhost:3001/api/operations', requestOptions)
+    const res = await fetch(`${url}/api/operations`, requestOptions)
     const data = await res.json()
 
     return data
@@ -54,7 +56,7 @@ const updateOperation = async (operation, token, idOperation) => {
   }
 
   try {
-    const res = await fetch(`http://localhost:3001/api/operations/${idOperation}`, requestOptions)
+    const res = await fetch(`${url}/api/operations/${idOperation}`, requestOptions)
     const data = await res.json()
     console.log(res)
     return data
@@ -75,7 +77,7 @@ const deleteOperation = async (id, token) => {
   }
 
   try {
-    const res = await fetch(`http://localhost:3001/api/operations/${id}`, requestOptions)
+    const res = await fetch(`${url}/api/operations/${id}`, requestOptions)
     const data = await res.json()
     return data
   } catch (err) {

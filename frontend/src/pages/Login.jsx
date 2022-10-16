@@ -76,7 +76,7 @@ export default function Login () {
                 </div>
                 <input
                   className="w-full text-lg py-2 border-b border-gray-300 focus:outline-none focus:border-indigo-500"
-                  type="text"
+                  type="password"
                   id="password"
                   value={password}
                   onChange={({ target }) => setPassword(target.value)}

@@ -20,11 +20,11 @@ const Modalt = ({ operations, setAllOperations, setOperations, allOperations, ca
     setCategory(updateOperation.categoryId)
   }, [updateOperation, openModal])
 
-  function afterOpenModal () {
+  function afterOpenModal() {
     subtitle.style.color = '#f00'
   }
 
-  function closeModal () {
+  function closeModal() {
     setUpdateOperation({})
     setOpenModal(false)
 
@@ -118,21 +118,22 @@ const Modalt = ({ operations, setAllOperations, setOperations, allOperations, ca
               onChange={({ target }) => setAmount(+target.value)}
             />
           </div>
-
-          <div className="mt-8">
-            <div className="flex justify-between items-center">
-              <div
-                className="text-sm font-bold text-gray-700 tracking-wide">
-                Type
+          {updateOperation?.id ? <></>
+            : <>
+              <div className="mt-8">
+                <div className="flex justify-between items-center">
+                  <div
+                    className="text-sm font-bold text-gray-700 tracking-wide">
+                    Type
+                  </div>
+                </div>
+                <select onChange={({ target }) => setType(target.value)} value={type} className="w-full text-lg py-2 border-b border-gray-300 focus:outline-none focus:border-indigo-500">
+                  <option value="" selected disabled hidden>Choose here</option>
+                  <option value="expenses">Expenses</option>
+                  <option value="incomes">Income</option>
+                </select>
               </div>
-            </div>
-            <select onChange={({ target }) => setType(target.value)} value={type} className="w-full text-lg py-2 border-b border-gray-300 focus:outline-none focus:border-indigo-500">
-            <option value="" selected disabled hidden>Choose here</option>
-              <option value="expenses">Expenses</option>
-              <option value="incomes">Income</option>
-            </select>
-          </div>
-
+            </>}
           <div className="mt-8">
             <div className="flex justify-between items-center">
               <div
@@ -141,7 +142,7 @@ const Modalt = ({ operations, setAllOperations, setOperations, allOperations, ca
               </div>
             </div>
             <select onChange={({ target }) => setCategory(target.value)} value={category} className="w-full text-lg py-2 border-b border-gray-300 focus:outline-none focus:border-indigo-500">
-            <option value="" selected disabled hidden>Choose here</option>
+              <option value="" selected disabled hidden>Choose here</option>
               {categories && categories.map(category => <option key={category.id} value={category.id}>{category.categoryName}</option>)}
             </select>
           </div>

@@ -91,7 +91,7 @@ export default function Register () {
                   </div>
                 </div>
                 <input className="w-full text-lg py-2 border-b border-gray-300 focus:outline-none focus:border-indigo-500"
-                  type="text"
+                  type="password"
                   placeholder="********************"
                   id="password"
                   value={password}

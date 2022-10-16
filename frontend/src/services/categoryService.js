@@ -1,3 +1,4 @@
+const url = import.meta.env.VITE_BACKEND_URL
 const getCategories = async (token) => {
   const requestOptions = {
     method: 'GET',
@@ -10,7 +11,7 @@ const getCategories = async (token) => {
   }
 
   try {
-    const res = await fetch('http://localhost:3001/api/categories', requestOptions)
+    const res = await fetch(`${url}/api/categories`, requestOptions)
     const data = await res.json()
     return data
   } catch (err) {
