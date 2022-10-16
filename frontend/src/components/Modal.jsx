@@ -20,11 +20,11 @@ const Modalt = ({ operations, setAllOperations, setOperations, allOperations, ca
     setCategory(updateOperation.categoryId)
   }, [updateOperation, openModal])
 
-  function afterOpenModal() {
+  function afterOpenModal () {
     subtitle.style.color = '#f00'
   }
 
-  function closeModal() {
+  function closeModal () {
     setUpdateOperation({})
     setOpenModal(false)
 
@@ -55,9 +55,7 @@ const Modalt = ({ operations, setAllOperations, setOperations, allOperations, ca
         setOperations([...operationsUpdated, response.data])
         setAllOperations([...allOperationsUpdated, response.data])
       }
-    }
-
-    else {
+    } else {
       response = await operationService.createOperation(operation, auth)
       console.log(response)
       if (response.status === 200) {
@@ -118,7 +116,8 @@ const Modalt = ({ operations, setAllOperations, setOperations, allOperations, ca
               onChange={({ target }) => setAmount(+target.value)}
             />
           </div>
-          {updateOperation?.id ? <></>
+          {updateOperation?.id
+            ? <></>
             : <>
               <div className="mt-8">
                 <div className="flex justify-between items-center">

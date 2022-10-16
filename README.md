@@ -19,6 +19,7 @@ npm install
 **1 - Variables de entorno**
 
 Crea un archivo **".env"** e inserta los datos tomando como referencia el archivo **".env.sample"** tanto en el back como en el front. Debería quedar algo asi:
+
 ***Backend***
 
 ```

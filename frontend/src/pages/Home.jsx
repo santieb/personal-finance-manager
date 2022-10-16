@@ -13,7 +13,6 @@ export default function Home () {
   const [allOperations, setAllOperations] = useState([])
   const [updateOperation, setUpdateOperation] = useState({})
   const [categories, setCategories] = useState('')
-  const [page, setPage] = useState(1)
   const [categoryId, setCategoryId] = useState('')
   const [type, setType] = useState('')
 
@@ -25,12 +24,12 @@ export default function Home () {
     return <Navigate to="/login" replace />
   }
 
-  const pathGetOperations = `operations?categoryId=${categoryId}&type=${type}&page=${page}`
+  const pathGetOperations = `operations?categoryId=${categoryId}&type=${type}&page=1`
 
   useEffect(() => {
     const getOperations = async () => {
       try {
-        const response = await operationService.getOperations(`operations?page=${page}`, auth)
+        const response = await operationService.getOperations('operations?page=1', auth)
         if (response.status === 403) {
           navigate('/login')
           logOut()
