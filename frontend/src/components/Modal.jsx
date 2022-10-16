@@ -4,12 +4,12 @@ import operationService from '../services/operationService'
 import useAuth from '../hooks/useAuth'
 
 const Modalt = ({ operations, setAllOperations, setOperations, allOperations, categories, updateOperation, setUpdateOperation, openModal, setOpenModal }) => {
-  let subtitle
-
   const [concept, setConcept] = useState('')
   const [type, setType] = useState('')
   const [amount, setAmount] = useState(0)
   const [category, setCategory] = useState('')
+
+  const { auth } = useAuth()
 
   useEffect(() => {
     if (!updateOperation) return
@@ -19,22 +19,6 @@ const Modalt = ({ operations, setAllOperations, setOperations, allOperations, ca
     setAmount(updateOperation.amount)
     setCategory(updateOperation.categoryId)
   }, [updateOperation, openModal])
-
-  function afterOpenModal () {
-    subtitle.style.color = '#f00'
-  }
-
-  function closeModal () {
-    setUpdateOperation({})
-    setOpenModal(false)
-
-    setConcept('')
-    setType('')
-    setAmount('')
-    setCategory('')
-  }
-
-  const { auth } = useAuth()
 
   const handleSubmit = async e => {
     e.preventDefault()
@@ -57,9 +41,7 @@ const Modalt = ({ operations, setAllOperations, setOperations, allOperations, ca
       }
     } else {
       response = await operationService.createOperation(operation, auth)
-      console.log(response)
       if (response.status === 200) {
-        console.log(operations)
         setOperations([...operations, response.data])
         setAllOperations([...allOperations, response.data])
       }
@@ -71,6 +53,21 @@ const Modalt = ({ operations, setAllOperations, setOperations, allOperations, ca
     setAmount('')
     setCategory('')
     setOpenModal(false)
+  }
+
+  let subtitle
+  function afterOpenModal () {
+    subtitle.style.color = '#f00'
+  }
+
+  function closeModal () {
+    setUpdateOperation({})
+    setOpenModal(false)
+
+    setConcept('')
+    setType('')
+    setAmount('')
+    setCategory('')
   }
 
   return (
@@ -88,6 +85,7 @@ const Modalt = ({ operations, setAllOperations, setOperations, allOperations, ca
           </h2>
           <button onClick={() => setOpenModal(false)}>X</button>
         </div>
+
         <form onSubmit={handleSubmit}>
           <div>
             <div className="text-sm font-bold text-gray-700 tracking-wide">Concept</div>
@@ -100,6 +98,7 @@ const Modalt = ({ operations, setAllOperations, setOperations, allOperations, ca
               onChange={({ target }) => setConcept(target.value)}
             />
           </div>
+
           <div className="mt-8">
             <div className="flex justify-between items-center">
               <div
@@ -116,6 +115,7 @@ const Modalt = ({ operations, setAllOperations, setOperations, allOperations, ca
               onChange={({ target }) => setAmount(+target.value)}
             />
           </div>
+
           {updateOperation?.id
             ? <></>
             : <>
@@ -133,6 +133,7 @@ const Modalt = ({ operations, setAllOperations, setOperations, allOperations, ca
                 </select>
               </div>
             </>}
+
           <div className="mt-8">
             <div className="flex justify-between items-center">
               <div

@@ -12,8 +12,7 @@ const Filters = ({ categories, type, setType, categoryId, setCategoryId }) => {
 
       <div className="mt-8">
         <div className="flex justify-between items-center">
-          <div
-            className="text-sm font-bold text-gray-700 tracking-wide">
+          <div className="text-sm font-bold text-gray-700 tracking-wide">
             Category
           </div>
         </div>

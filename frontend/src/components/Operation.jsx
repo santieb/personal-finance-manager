@@ -19,7 +19,7 @@ const Operation = ({ operation, setUpdateOperation, deleteOperation, setOpenModa
             {concept}
           </p>
           <p className="text-sm text-gray-500 truncate dark:text-gray-400">
-            24 jan
+            {category?.categoryName || 'none'}
           </p>
         </div>
         {type === 'expenses'

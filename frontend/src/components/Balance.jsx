@@ -3,14 +3,14 @@ import { CircularProgressbarWithChildren } from 'react-circular-progressbar'
 import 'react-circular-progressbar/dist/styles.css'
 
 const Balance = ({ allOperations }) => {
-  const [progess, setProgress] = useState(0)
+  const [progress, setProgress] = useState(0)
   const [expenses, setExpenses] = useState(0)
   const [incomes, setIncomes] = useState(0)
 
   useEffect(() => {
     const calculateExpenses = () => {
       let totalExpenses = 0
-      let totalIncome = 0
+      let totalIncomes = 0
 
       if (!allOperations || allOperations.length === 0) {
         setExpenses(0)
@@ -22,17 +22,17 @@ const Balance = ({ allOperations }) => {
       allOperations.forEach(operations => {
         if (operations.type === 'expenses') totalExpenses += operations.amount
 
-        if (operations.type === 'incomes') totalIncome += operations.amount
+        if (operations.type === 'incomes') totalIncomes += operations.amount
       })
 
-      setExpenses(totalExpenses)
-      setIncomes(totalIncome)
+      let progressbar = 100 - (totalExpenses / totalIncomes * 100)
+      if (progressbar > 100 || progressbar < 0) progressbar = 0
 
-      let progressbar = 100 - totalExpenses / totalIncome * 100
-
-      if (progressbar === -Infinity || progressbar === Infinity) progressbar = 0
       setProgress(progressbar)
+      setExpenses(totalExpenses)
+      setIncomes(totalIncomes)
     }
+
     calculateExpenses()
   }, [allOperations])
 
@@ -58,10 +58,10 @@ const Balance = ({ allOperations }) => {
         <p className="text-xl font-bold text-red-700">${expenses}</p>
       </div>
       </div>
-      <div className={ progess < 0 ? 'w-80 border-red-500' : 'w-80 border-blue-500'}>
-        <CircularProgressbarWithChildren value={progess} >
+      <div className='w-80 border-blue-500'>
+        <CircularProgressbarWithChildren value={progress} >
         <div>
-            <strong>{Math.trunc(progess)}% </strong> Remaining
+            <strong>{Math.trunc(progress)}% </strong> Remaining
           </div>
         </CircularProgressbarWithChildren >
       </div>
