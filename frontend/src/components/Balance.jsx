@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { CircularProgressbarWithChildren  } from 'react-circular-progressbar'
+import { CircularProgressbarWithChildren } from 'react-circular-progressbar'
 import 'react-circular-progressbar/dist/styles.css'
 
 const Balance = ({ allOperations }) => {
@@ -61,7 +61,7 @@ const Balance = ({ allOperations }) => {
       <div className={ progess < 0 ? 'w-80 border-red-500' : 'w-80 border-blue-500'}>
         <CircularProgressbarWithChildren value={progess} >
         <div>
-            <strong>{progess}% </strong> Remaining
+            <strong>{Math.trunc(progess)}% </strong> Remaining
           </div>
         </CircularProgressbarWithChildren >
       </div>

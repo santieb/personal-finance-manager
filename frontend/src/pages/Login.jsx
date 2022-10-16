@@ -60,7 +60,7 @@ export default function Login () {
                 <div className="text-sm font-bold text-gray-700 tracking-wide">Email Address</div>
                 <input
                   className="w-full text-lg py-2 border-b border-gray-300 focus:outline-none focus:border-indigo-500"
-                  type="text"
+                  type="email"
                   placeholder="johndoe@gmail.com"
                   id="email"
                   value={email}

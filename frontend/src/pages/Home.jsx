@@ -6,10 +6,12 @@ import Operation from '../components/Operation'
 import Balance from '../components/Balance'
 import Modalt from '../components/Modal'
 import categoryService from '../services/categoryService'
+import images from '../assets/index'
 
 export default function Home () {
   const [operations, setOperations] = useState([])
   const [allOperations, setAllOperations] = useState([])
+  const [updateOperation, setUpdateOperation] = useState({})
   const [categories, setCategories] = useState('')
   const [page, setPage] = useState(1)
   const [categoryId, setCategoryId] = useState('')
@@ -34,7 +36,7 @@ export default function Home () {
           logOut()
         }
 
-        if (response) return
+        if (!response.data) return
         setAllOperations(response.data)
       } catch (err) {
         console.log(err)
@@ -53,7 +55,7 @@ export default function Home () {
           logOut()
         }
 
-        if (response) return
+        if (!response.data) return
         setOperations(response.data)
       } catch (err) {
         console.log(err)
@@ -81,6 +83,8 @@ export default function Home () {
     }
   }
 
+  const [openModal, setOpenModal] = useState(false)
+
   return (
     <div>
       <div className="bg-indigo-100 flex flex-col items-center justify-center">
@@ -93,7 +97,16 @@ export default function Home () {
           <div className="w-80 mx-40"></div>
           <div className="flex justify-between items-center mb-4">
             <h3 className="text-xl font-bold leading-none">Operations</h3>
-            <Modalt operations={operations} allOperations={allOperations} setAllOperations={setAllOperations} setOperations={setOperations} categories={categories}/>
+            <Modalt
+              openModal={openModal}
+              setOpenModal={setOpenModal}
+              operations={operations}
+              allOperations={allOperations}
+              setAllOperations={setAllOperations}
+              setOperations={setOperations}
+              categories={categories}
+              updateOperation={updateOperation}
+              setUpdateOperation={setUpdateOperation} />
           </div>
           <div>
             <h5 className="text-sm font-bold text-gray-700 tracking-wide py-4">
@@ -118,7 +131,7 @@ export default function Home () {
           </div>
           <div>
             <ul className="divide-y divide-gray-200 lg:grid lg:grid-cols-2">
-              {operations && operations.map(operation => <Operation key={operation.id} operation={operation} deleteOperation={deleteOperation}/>)}
+              {operations && operations.map(operation => <Operation setOpenModal={setOpenModal} key={operation.id} operation={operation} deleteOperation={deleteOperation} setUpdateOperation={setUpdateOperation} />)}
             </ul>
           </div>
         </div>

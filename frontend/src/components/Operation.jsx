@@ -1,8 +1,8 @@
 import React from 'react'
 import images from '../assets'
 
-const Operation = ({ operation, deleteOperation }) => {
-  const { id, amount, concept, type } = operation
+const Operation = ({ operation, setUpdateOperation, deleteOperation, setOpenModal }) => {
+  const { id, amount, concept, type, category } = operation
 
   return (
     <li className="py-3 sm:py-8 lg:w-80 lg:p-6">
@@ -10,8 +10,8 @@ const Operation = ({ operation, deleteOperation }) => {
         <div className="flex-shrink-0">
           <img
             className="w-8 h-8 rounded-full"
-            src="https://flowbite.com/docs/images/people/profile-picture-4.jpg"
-            alt="Lana image"
+            src={category?.image || images.defaultIcon}
+            alt="category"
           />
         </div>
         <div className="flex-1 min-w-0">
@@ -30,8 +30,15 @@ const Operation = ({ operation, deleteOperation }) => {
             ${amount}
           </div>
         }
-        <img className="w-6 lg:w-4 mr-4 ransform hover:scale-125" src={images.update}></img>
-        <img onClick={() => deleteOperation(id)} className="w-6 lg:w-4 transform hover:scale-125" src={images.remove}></img>
+        <button onClick={() => {
+          setOpenModal(true)
+          setUpdateOperation(operation)
+        }}>
+          <img className="w-6 lg:w-4 mr-4 ransform hover:scale-125" src={images.update}></img>
+        </button>
+        <button onClick={() => deleteOperation(id)}>
+          <img className="w-6 lg:w-4 transform hover:scale-125" src={images.remove}></img>
+        </button>
       </div>
     </li>
   )
