@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import images from '../assets'
+import images from '../assets/images'
 import { useNavigate, Navigate } from 'react-router-dom'
 import useAuth from '../hooks/useAuth'
 import authService from '../services/authService'

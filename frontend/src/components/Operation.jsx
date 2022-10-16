@@ -1,5 +1,5 @@
 import React from 'react'
-import images from '../assets'
+import icons from '../assets/icons'
 
 const Operation = ({ operation, setUpdateOperation, deleteOperation, setOpenModal }) => {
   const { id, amount, concept, type, category } = operation
@@ -10,7 +10,7 @@ const Operation = ({ operation, setUpdateOperation, deleteOperation, setOpenModa
         <div className="flex-shrink-0">
           <img
             className="w-8 h-8 rounded-full"
-            src={category?.image || images.defaultIcon}
+            src={category?.image || icons.defaultIcon}
             alt="category"
           />
         </div>
@@ -34,10 +34,10 @@ const Operation = ({ operation, setUpdateOperation, deleteOperation, setOpenModa
           setOpenModal(true)
           setUpdateOperation(operation)
         }}>
-          <img className="w-6 lg:w-4 mr-4 ransform hover:scale-125" src={images.update}></img>
+          <img className="w-6 lg:w-4 mr-4 ransform hover:scale-125" src={icons.update}></img>
         </button>
         <button onClick={() => deleteOperation(id)}>
-          <img className="w-6 lg:w-4 transform hover:scale-125" src={images.remove}></img>
+          <img className="w-6 lg:w-4 transform hover:scale-125" src={icons.remove}></img>
         </button>
       </div>
     </li>

@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useNavigate, Navigate } from 'react-router-dom'
 import useAuth from '../hooks/useAuth'
-import images from '../assets'
+import images from '../assets/images'
 import authService from '../services/authService'
 import Alert from '../components/Alert'
 
