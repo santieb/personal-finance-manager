@@ -2,7 +2,10 @@ import db from '../../config/database.js'
 import { ErrorObject } from '../../shared/error.js'
 
 const getOperations = async (userId, categoryId, type, page) => {
-  const where = { userId, categoryId, type }
+  const where = { userId }
+
+  if (type) where.type = type
+  if (categoryId) where.categoryId = categoryId
 
   const take = 10
   const skip = (page - 1) * 10 || 0
@@ -18,7 +21,7 @@ const getOperations = async (userId, categoryId, type, page) => {
 }
 
 const createOperation = async (newOperation) => {
-  const { concept, amount, type, userId, categoryId } = newOperation
+  const { concept, amount, type, date, userId, categoryId } = newOperation
 
   const categoryExists = await db.category.findUnique({ where: { id: categoryId } })
   if (!categoryExists) throw new ErrorObject('category not exists', 404)
@@ -28,8 +31,12 @@ const createOperation = async (newOperation) => {
       concept,
       amount: +amount,
       type,
+      date,
       userId,
       categoryId
+    },
+    include: {
+      category: true
     }
   })
 }

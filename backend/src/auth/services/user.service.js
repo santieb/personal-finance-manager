@@ -15,7 +15,8 @@ const registerUser = async (user) => {
     data: {
       name,
       email,
-      password: passwordHashed
+      password: passwordHashed,
+      isAdmin: true
     }
   })
 }

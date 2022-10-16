@@ -24,13 +24,14 @@ const getOperations = async (req, res) => {
 
 const createOperation = async (req, res) => {
   try {
-    const { concept, amount, type, categoryId } = req.body
+    const { concept, amount, type, date, categoryId } = req.body
     const { id: userId } = req.user
 
     const newOperation = {
       concept,
       amount,
       type,
+      date,
       userId,
       categoryId
     }
