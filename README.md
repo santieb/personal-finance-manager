@@ -1,11 +1,11 @@
-# Alkemy-fullstack
-Alkemy-fullstack es un challenge de desarrollo web construido con el objetivo de administrar presupuestos personales.
+# Personal-finance-manager
+Desarrollo web construido con el objetivo de administrar presupuestos personales.
 ## Comenzando 🚀
 
 Haz un clon del repositorio
 
 ```
-git clone https://github.com/santieb/alkemy-fullstack.git
+git clone https://github.com/santieb/personal-finance-manager.git
 ```
 
 Instala las dependencias tanto del back como del front
@@ -47,5 +47,3 @@ VITE_BACKEND_URL=http://localhost:3001
 ## Autor ✒️
 
 * **Santiago Barreto** - [santieb](https://github.com/santieb) 
-
-Challenge propuesto por [Alkemy](https://www.alkemy.org/)
