@@ -14,7 +14,7 @@ const register = async ({ email, name, password }) => {
   }
 
   try {
-    const res = await fetch(`${url}/api/users/register?page=1`, requestOptions)
+    const res = await fetch(`${url}/api/users/register`, requestOptions)
     const userData = await res.json()
 
     return userData
@@ -39,7 +39,7 @@ const login = async ({ email, password }) => {
   try {
     const res = await fetch(`${url}/api/users/login`, requestOptions)
     const data = await res.json()
-    if (data.token) {
+    if (data?.token) {
       localStorage.setItem('user', JSON.stringify(data.token))
     }
 

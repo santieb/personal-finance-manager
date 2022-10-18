@@ -28,15 +28,15 @@ export default function Login () {
         setAuth(res.token)
       }
 
-      if (!alert) setAlert({ msg: 'Unexpected error. try again', error: true })
+      if (!alert) setAlert({ msg: res.message, error: true })
     } catch (err) {
-      return setAlert({ msg: err.message, error: true })
+      return setAlert({ msg: 'Unexpected error. try again', error: true })
     } finally {
       setEmail('')
       setPassword('')
       setTimeout(() => {
-        setAlert({})
-      }, [2000])
+        setAlert('')
+      }, [2500])
     }
   }
 
