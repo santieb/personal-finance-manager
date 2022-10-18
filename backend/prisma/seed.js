@@ -2,7 +2,7 @@ import { PrismaClient } from '@prisma/client'
 import { encrypt } from '../src/auth/utils/bcrypt.js'
 const prisma = new PrismaClient()
 
-async function main () {
+async function main() {
   await prisma.user.create({
     data: {
       name: 'test',
