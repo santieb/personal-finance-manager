@@ -1,6 +1,7 @@
 import React, { createContext, useState } from 'react'
 import useAuth from '../hooks/useAuth'
 import operationService from '../services/operationService'
+import { useNavigate } from 'react-router-dom'
 
 const OperationContext = createContext()
 
@@ -9,7 +10,38 @@ const OperationProvider = ({ children }) => {
   const [allOperations, setAllOperations] = useState([])
   const [operationToUpdate, setOperationToUpdate] = useState({})
 
-  const { auth } = useAuth()
+  const { auth, logOut } = useAuth()
+  const navigate = useNavigate()
+
+  const getOperations = async () => {
+    try {
+      const response = await operationService.getOperations('operations?page=1', auth)
+      if (response.status === 403) {
+        navigate('/login')
+        logOut()
+      }
+
+      if (!response.data) return setOperations([])
+      setAllOperations(response.data)
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  const getOperationsWithFilters = async (path) => {
+    try {
+      const response = await operationService.getOperations(path, auth)
+      if (response.status === 403) {
+        navigate('/login')
+        logOut()
+      }
+
+      if (!response.data) return setOperations([])
+      setOperations(response.data)
+    } catch (err) {
+      console.log(err)
+    }
+  }
 
   const createOperation = async (operation) => {
     const res = await operationService.createOperation(operation, auth)
@@ -45,6 +77,8 @@ const OperationProvider = ({ children }) => {
   return (
     <OperationContext.Provider
       value={{
+        getOperations,
+        getOperationsWithFilters,
         operations,
         setOperations,
         allOperations,

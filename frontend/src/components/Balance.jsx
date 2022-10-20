@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import { CircularProgressbarWithChildren } from 'react-circular-progressbar'
 import 'react-circular-progressbar/dist/styles.css'
+import useOperation from '../hooks/useOperation'
 
-const Balance = ({ allOperations }) => {
+const Balance = () => {
+  const { allOperations } = useOperation()
+
   const [progress, setProgress] = useState(0)
   const [expenses, setExpenses] = useState(0)
   const [incomes, setIncomes] = useState(0)

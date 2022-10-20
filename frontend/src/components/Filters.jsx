@@ -1,6 +1,9 @@
 import React from 'react'
+import useApp from '../hooks/useApp'
 
-const Filters = ({ categories, type, setType, categoryId, setCategoryId }) => {
+const Filters = () => {
+  const { categories, type, setType, categoryId, setCategoryId } = useApp()
+
   return (
     <div>
       <h5 className="text-sm font-bold text-gray-700 tracking-wide py-4">

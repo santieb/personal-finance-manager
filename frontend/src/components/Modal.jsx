@@ -3,13 +3,13 @@ import Modal from 'react-modal'
 import useOperation from '../hooks/useOperation'
 import useApp from '../hooks/useApp'
 
-const Modalt = ({ categories }) => {
+const Modalt = () => {
   const [concept, setConcept] = useState('')
   const [type, setType] = useState('')
   const [amount, setAmount] = useState(0)
   const [category, setCategory] = useState('')
 
-  const { isOpenModal, openModal, closeModal } = useApp()
+  const { categories, isOpenModal, openModal, closeModal } = useApp()
   const { createOperation, updateOperation, operationToUpdate, setOperationToUpdate } = useOperation()
 
   useEffect(() => {
