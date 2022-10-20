@@ -1,9 +1,11 @@
 import React from 'react'
 import icons from '../assets/icons'
 import useOperation from '../hooks/useOperation'
+import useApp from '../hooks/useApp'
 
-const Operation = ({ operation, setOpenModal }) => {
+const Operation = ({ operation }) => {
   const { id, amount, concept, type, category } = operation
+  const { openModal } = useApp()
   const { deleteOperation, setOperationToUpdate } = useOperation()
 
   return (
@@ -33,7 +35,7 @@ const Operation = ({ operation, setOpenModal }) => {
           </div>
         }
         <button onClick={() => {
-          setOpenModal(true)
+          openModal()
           setOperationToUpdate(operation)
         }}>
           <img className="w-6 lg:w-4 mr-4 ransform hover:scale-125" src={icons.update}></img>

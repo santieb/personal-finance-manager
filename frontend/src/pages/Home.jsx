@@ -20,16 +20,12 @@ export default function Home () {
     operations,
     setOperations,
     allOperations,
-    setAllOperations,
-    updateOperation,
-    setUpdateOperation
+    setAllOperations
   } = useOperation()
 
   if (!auth) {
     return <Navigate to="/login" replace />
   }
-
-  const [openModal, setOpenModal] = useState(false)
 
   const navigate = useNavigate()
 
@@ -95,15 +91,7 @@ export default function Home () {
             <div className="flex justify-between items-center mb-4">
               <h3 className="text-xl font-bold leading-none">Operations</h3>
               <Modal
-                openModal={openModal}
-                setOpenModal={setOpenModal}
-                operations={operations}
-                allOperations={allOperations}
-                setAllOperations={setAllOperations}
-                setOperations={setOperations}
                 categories={categories}
-                updateOperation={updateOperation}
-                setUpdateOperation={setUpdateOperation}
               />
             </div>
             <Filters
@@ -113,9 +101,7 @@ export default function Home () {
               categoryId={categoryId}
               setCategoryId={setCategoryId}
             />
-            <OperationList
-              setOpenModal={setOpenModal}
-            />
+            <OperationList />
           </div>
         </div>
       </div>

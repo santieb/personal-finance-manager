@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from 'react'
 import Modal from 'react-modal'
 import useOperation from '../hooks/useOperation'
+import useApp from '../hooks/useApp'
 
-const Modalt = ({ categories, openModal, setOpenModal }) => {
+const Modalt = ({ categories }) => {
   const [concept, setConcept] = useState('')
   const [type, setType] = useState('')
   const [amount, setAmount] = useState(0)
   const [category, setCategory] = useState('')
 
-  const { createOperation, updateOperation, operationToUpdate } = useOperation()
+  const { isOpenModal, openModal, closeModal } = useApp()
+  const { createOperation, updateOperation, operationToUpdate, setOperationToUpdate } = useOperation()
 
   useEffect(() => {
     if (!operationToUpdate) return
@@ -17,7 +19,7 @@ const Modalt = ({ categories, openModal, setOpenModal }) => {
     setType(operationToUpdate.type)
     setAmount(operationToUpdate.amount)
     setCategory(operationToUpdate.categoryId)
-  }, [operationToUpdate, openModal])
+  }, [operationToUpdate, isOpenModal])
 
   const handleSubmit = async e => {
     e.preventDefault()
@@ -35,12 +37,12 @@ const Modalt = ({ categories, openModal, setOpenModal }) => {
     setType('')
     setAmount('')
     setCategory('')
-    setOpenModal(false)
+    closeModal()
   }
 
-  const closeModal = () => {
-    operationToUpdate({})
-    setOpenModal(false)
+  const finishModal = () => {
+    setOperationToUpdate({})
+    closeModal()
 
     setConcept('')
     setType('')
@@ -52,19 +54,19 @@ const Modalt = ({ categories, openModal, setOpenModal }) => {
     <div>
       <button
         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
-        onClick={() => setOpenModal(true)}>
+        onClick={() => openModal()}>
         +
       </button>
       <Modal className="lg:m-auto lg:mt-64 border-2 border-slate-500 rounded-lg lg:w-1/3 xl:max-w-screen-sm bg-white p-4"
-        isOpen={openModal}
-        onRequestClose={closeModal}
+        isOpen={isOpenModal}
+        onRequestClose={finishModal}
         contentLabel="Example Modal"
       >
         <div className="flex space-beetween justify-between items-center mb-4">
           <h2 className="text-2xl text-indigo-800 tracking-wide ml-2 font-semibold">
             {operationToUpdate?.id ? 'Update Operation' : 'Create Operation'}
           </h2>
-          <button onClick={() => setOpenModal(false)}>X</button>
+          <button onClick={() => finishModal}>X</button>
         </div>
 
         <form onSubmit={handleSubmit}>
