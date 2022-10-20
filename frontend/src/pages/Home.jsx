@@ -1,29 +1,37 @@
 import React, { useState, useEffect } from 'react'
 import useAuth from '../hooks/useAuth'
+import useOperation from '../hooks/useOperation'
 import { Navigate, useNavigate } from 'react-router-dom'
-import operationService from '../services/operationService'
 import Balance from '../components/Balance'
 import Modal from '../components/Modal'
-import categoryService from '../services/categoryService'
 import Filters from '../components/Filters'
 import OperationList from '../components/OperationList'
 import Header from '../components/Header'
+import operationService from '../services/operationService'
+import categoryService from '../services/categoryService'
 
-export default function Home() {
-  const [operations, setOperations] = useState([])
-  const [allOperations, setAllOperations] = useState([])
-  const [updateOperation, setUpdateOperation] = useState({})
+export default function Home () {
+  const { auth, logOut } = useAuth()
   const [categories, setCategories] = useState('')
   const [categoryId, setCategoryId] = useState('')
   const [type, setType] = useState('')
 
-  const { auth, logOut } = useAuth()
-
-  const navigate = useNavigate()
+  const {
+    operations,
+    setOperations,
+    allOperations,
+    setAllOperations,
+    updateOperation,
+    setUpdateOperation
+  } = useOperation()
 
   if (!auth) {
     return <Navigate to="/login" replace />
   }
+
+  const [openModal, setOpenModal] = useState(false)
+
+  const navigate = useNavigate()
 
   const pathGetOperations = `operations?categoryId=${categoryId}&type=${type}&page=1`
 
@@ -73,18 +81,6 @@ export default function Home() {
     getCategories()
   }, [])
 
-  const deleteOperation = async (id) => {
-    const res = await operationService.deleteOperation(id, auth)
-    if (res.status === 200) {
-      const operationsUpdated = operations.filter(operation => operation.id !== id)
-      const allOperationsUpdated = allOperations.filter(operation => operation.id !== id)
-      setOperations(operationsUpdated)
-      setAllOperations(allOperationsUpdated)
-    }
-  }
-
-  const [openModal, setOpenModal] = useState(false)
-
   return (
     <div>
       <Header />
@@ -118,10 +114,7 @@ export default function Home() {
               setCategoryId={setCategoryId}
             />
             <OperationList
-              operations={operations}
               setOpenModal={setOpenModal}
-              deleteOperation={deleteOperation}
-              setUpdateOperation={setUpdateOperation}
             />
           </div>
         </div>

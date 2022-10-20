@@ -1,24 +1,23 @@
 import React, { useState, useEffect } from 'react'
 import Modal from 'react-modal'
-import operationService from '../services/operationService'
-import useAuth from '../hooks/useAuth'
+import useOperation from '../hooks/useOperation'
 
-const Modalt = ({ operations, setAllOperations, setOperations, allOperations, categories, updateOperation, setUpdateOperation, openModal, setOpenModal }) => {
+const Modalt = ({ categories, openModal, setOpenModal }) => {
   const [concept, setConcept] = useState('')
   const [type, setType] = useState('')
   const [amount, setAmount] = useState(0)
   const [category, setCategory] = useState('')
 
-  const { auth } = useAuth()
+  const { createOperation, updateOperation, operationToUpdate } = useOperation()
 
   useEffect(() => {
-    if (!updateOperation) return
+    if (!operationToUpdate) return
 
-    setConcept(updateOperation.concept)
-    setType(updateOperation.type)
-    setAmount(updateOperation.amount)
-    setCategory(updateOperation.categoryId)
-  }, [updateOperation, openModal])
+    setConcept(operationToUpdate.concept)
+    setType(operationToUpdate.type)
+    setAmount(operationToUpdate.amount)
+    setCategory(operationToUpdate.categoryId)
+  }, [operationToUpdate, openModal])
 
   const handleSubmit = async e => {
     e.preventDefault()
@@ -28,26 +27,10 @@ const Modalt = ({ operations, setAllOperations, setOperations, allOperations, ca
 
     const operation = { concept, type, categoryId: category, amount }
 
-    let response
-    if (updateOperation?.id) {
-      const operationId = updateOperation.id
-      response = await operationService.updateOperation(operation, auth, operationId)
+    if (operationToUpdate?.id) {
+      updateOperation(operation)
+    } else createOperation(operation)
 
-      if (response.status === 200) {
-        const operationsUpdated = operations.filter(operation => operation.id !== updateOperation.id)
-        const allOperationsUpdated = allOperations.filter(operation => operation.id !== updateOperation.id)
-        setOperations([...operationsUpdated, response.data])
-        setAllOperations([...allOperationsUpdated, response.data])
-      }
-    } else {
-      response = await operationService.createOperation(operation, auth)
-      if (response.status === 200) {
-        setOperations([...operations, response.data])
-        setAllOperations([...allOperations, response.data])
-      }
-    }
-
-    setUpdateOperation({})
     setConcept('')
     setType('')
     setAmount('')
@@ -55,13 +38,8 @@ const Modalt = ({ operations, setAllOperations, setOperations, allOperations, ca
     setOpenModal(false)
   }
 
-  let subtitle
-  function afterOpenModal () {
-    subtitle.style.color = '#f00'
-  }
-
-  function closeModal () {
-    setUpdateOperation({})
+  const closeModal = () => {
+    operationToUpdate({})
     setOpenModal(false)
 
     setConcept('')
@@ -72,16 +50,19 @@ const Modalt = ({ operations, setAllOperations, setOperations, allOperations, ca
 
   return (
     <div>
-      <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full" onClick={() => setOpenModal(true)}>+</button>
+      <button
+        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
+        onClick={() => setOpenModal(true)}>
+        +
+      </button>
       <Modal className="lg:m-auto lg:mt-64 border-2 border-slate-500 rounded-lg lg:w-1/3 xl:max-w-screen-sm bg-white p-4"
         isOpen={openModal}
-        onAfterOpen={afterOpenModal}
         onRequestClose={closeModal}
         contentLabel="Example Modal"
       >
         <div className="flex space-beetween justify-between items-center mb-4">
           <h2 className="text-2xl text-indigo-800 tracking-wide ml-2 font-semibold">
-            {updateOperation?.id ? 'Update Operation' : 'Create Operation'}
+            {operationToUpdate?.id ? 'Update Operation' : 'Create Operation'}
           </h2>
           <button onClick={() => setOpenModal(false)}>X</button>
         </div>
@@ -116,7 +97,7 @@ const Modalt = ({ operations, setAllOperations, setOperations, allOperations, ca
             />
           </div>
 
-          {updateOperation?.id
+          {operationToUpdate?.id
             ? <></>
             : <>
               <div className="mt-8">
@@ -149,7 +130,7 @@ const Modalt = ({ operations, setAllOperations, setOperations, allOperations, ca
 
           <div className="mt-10">
             <button className="bg-indigo-500 text-gray-100 p-4 w-full rounded-full tracking-wide font-semibold font-display focus:outline-none focus:shadow-outline hover:bg-indigo-600 shadow-lg">
-              {updateOperation?.id ? 'Update Operation' : 'Create Operation'}
+              {operationToUpdate?.id ? 'Update Operation' : 'Create Operation'}
             </button>
           </div>
         </form>
